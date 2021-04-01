@@ -1,21 +1,23 @@
 import csv
-from repeater import expandToList
-from tqdm import tqdm
+import sys
 
 
 if __name__ == "__main__":
+    print(sys.argv)
 
-    test_file_name = "IP24.sorted.bed"
-    test_out = "testout.bed"
+    for i in range(len(sys.argv)):
+        if sys.argv[i] == "-i":
+            inLoc = sys.argv[i+1]
+        if sys.argv[i] == "-o":
+            outLoc = sys.argv[i+1]
 
     csv.register_dialect("tsv", delimiter="\t")
 
-    with open(test_file_name, 'r') as inFile, open(test_out, 'w') as outFile:
+    with open(inLoc, 'r') as inFile, open(outLoc, 'w') as outFile:
         reader = csv.reader(inFile, delimiter="\t")
         writer = csv.writer(outFile, delimiter="\t")
-        out = []
 
-        for row in tqdm(reader):
+        for row in reader:
             chr, start, stop = row[:3]
             start = int(start)
             stop = int(stop)
